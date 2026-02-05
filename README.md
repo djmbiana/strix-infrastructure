@@ -1,4 +1,4 @@
-# 🦉 Strix
+# Strix
 
 Security scanning platform that prevents credential leaks and limits cloud blast radius.
 
