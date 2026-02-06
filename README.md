@@ -10,7 +10,6 @@ Strix is an automated security platform that detects exposed secrets in code rep
 
 ### The Problem
 Developer commits AWS credentials → Automated bots detect the leak within minutes → Unauthorized resource usage begins → Financial and security impact follows.
-
 ### The Solution
 Strix integrates with repositories as a GitHub App and:
 
