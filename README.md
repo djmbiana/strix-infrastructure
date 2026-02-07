@@ -5,6 +5,11 @@ Security scanning platform that prevents credential leaks and limits cloud blast
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![Status](https://img.shields.io/badge/status-WIP-yellow)
 
+
+## Status
+In Development - Day 2 of 50
+**Latest:** Lambda function deployed in private subnet with NAT gateway access
+
 ## What is Strix?
 Strix is an automated security platform that detects exposed secrets in code repositories and immediately contains potential cloud compromise.
 
