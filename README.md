@@ -7,8 +7,18 @@ Security scanning platform that prevents credential leaks and limits cloud blast
 
 
 ## Status
-In Development - Day 2 of 50
-**Latest:** Lambda function deployed in private subnet with NAT gateway access
+In Development - Day 4 of 50
+**Latest:** Full pipeline is operational. refer to the lambda-code directory to see the API
+-  Secrets detection (AWS, GitHub Tokens, SSH keys)
+-  GitHub webhook integration
+-  Scans save to an S3 bucket 
+- CloudWatch monitoring is also fuctional
+
+**Architecture:**
+GitHub → API Gateway → Lambda (private subnet) → S3 + CloudWatch
+
+**Next:** SNS alerts + DynamoDB + Terraform (Days 5-10)
+
 
 ## What is Strix?
 Strix is an automated security platform that detects exposed secrets in code repositories and immediately contains potential cloud compromise.
