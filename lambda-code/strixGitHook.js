@@ -1,10 +1,12 @@
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { DynamoDBClient, PutItemCommand } from "@aws-sdk/client-dynamodb";
 
 export const handler = async (event) => {
   console.log('Strix Lambda starting...');
 
   const payload = event.body ? JSON.parse(event.body) : event;
   const s3 = new S3Client({ region: process.env.AWS_REGION });
+  const client = new DynamoDBClient({});
 
   console.log('Full payload:', JSON.stringify(payload, null, 2));
   console.log('Scanning Repository:', payload.repository.full_name)
@@ -109,6 +111,25 @@ const scanPattern = (commitMsg, pattern, warningMsg) => {
 
     console.log("Scan results uploaded to S3:", `s3://${bucket}/${key}`)
   }
+
+  // storing the information within dynamodb
+    if(!client){
+        console.log("DB connection not established; skipping dynamodb writing")
+    }
+    else{
+    const writeToDb = new PutItemCommand({
+        TableName: "strix-scan-db",
+        Item: {
+            repository: { S: scanReport.repository },
+            scannedAt: { S: scanReport.scannedAt },
+            totalCommits: { N: scanReport.totalCommits.toString() },
+            results: { S: JSON.stringify(scanReport.results) }
+        }
+    })
+    await client.send(writeToDb)
+        console.log("Scan Results written to DynamoDB")
+    }
+
 
 return {
   statusCode: 200,
