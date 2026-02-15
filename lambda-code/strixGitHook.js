@@ -1,11 +1,13 @@
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { DynamoDBClient, PutItemCommand } from "@aws-sdk/client-dynamodb";
+import { SNSClient, PublishCommand } from "@aws-sdk/client-sns";
 
 export const handler = async (event) => {
   console.log('Strix Lambda starting...');
 
   const payload = event.body ? JSON.parse(event.body) : event;
   const s3 = new S3Client({ region: process.env.AWS_REGION });
+  const sns = new SNSClient({ region: process.env.AWS_REGION });
   const client = new DynamoDBClient({});
 
   console.log('Full payload:', JSON.stringify(payload, null, 2));
@@ -112,7 +114,7 @@ const scanPattern = (commitMsg, pattern, warningMsg) => {
     console.log("Scan results uploaded to S3:", `s3://${bucket}/${key}`)
   }
 
-  // storing the information within dynamodb
+    // storing the information within dynamodb
     if(!client){
         console.log("DB connection not established; skipping dynamodb writing")
     }
@@ -128,6 +130,29 @@ const scanPattern = (commitMsg, pattern, warningMsg) => {
     })
     await client.send(writeToDb)
         console.log("Scan Results written to DynamoDB")
+    }
+
+    // sending out sns message
+    const findings = scanResults.some((r => !r.clean));
+    if (!findings) {
+        console.log("No findings, will not push to SNS")
+    }
+    else {
+        const alertMsg = `ALERT! YOUR GIT REPO HAS A SECURITY RISK!
+    Repository: ${scanReport.repository}
+    Secrets detected in scan!
+
+
+    Check DynamoDB for more details.`;
+
+        await sns.send(new PublishCommand({
+            TopicArn: "arn:aws:sns:ap-southeast-1:933999128830:strix-security-alerts",
+            Subject: "Strix Alert: Private Keys Detected",
+            Message: alertMsg
+        }));
+
+        console.log("SNS alerts sent!")
+
     }
 
 
