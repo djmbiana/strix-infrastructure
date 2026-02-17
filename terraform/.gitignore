@@ -1,0 +1,10 @@
+# Terraform state (contains sensitive data)
+*.tfstate
+*.tfstate.backup
+
+# Terraform provider binaries (large files, auto-downloaded)
+.terraform/
+
+# Sensitive variable files
+*.tfvars
+*.tfvars.json
