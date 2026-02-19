@@ -94,3 +94,20 @@ resource "aws_route_table_association" "priv" {
   subnet_id = aws_subnet.strix_private_subnet.id
   route_table_id = aws_route_table.strix_private_routetb.id
 }
+
+resource "aws_security_group" "lambda_sg" {
+  name        = "strix-lambda-sg"
+  description = "Security group for Strix Lambda functions"
+  vpc_id      = aws_vpc.strix_vpc.id
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "strix-lambda-sg"
+  }
+}
