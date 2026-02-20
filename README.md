@@ -7,12 +7,12 @@ Security scanning platform that prevents credential leaks and limits cloud blast
 
 
 ## Status
-In Development - Day 4 of 50
-**Latest:** Full pipeline is operational. refer to the lambda-code directory to see the API
+In Development - Day 8 of 50
+**Latest:** Fully migrated to IaC via Terraform. Strix can now be reproduciable 
 -  Secrets detection (AWS, GitHub Tokens, SSH keys)
 -  GitHub webhook integration
--  Scans save to an S3 bucket 
-- CloudWatch monitoring is also fuctional
+-  Scans save to an S3 bucket & DynamoDB 
+- Sends SNS notifications to both Email & Slack
 
 **Architecture:**
 GitHub → API Gateway → Lambda (private subnet) → S3 + CloudWatch
