@@ -1,12 +1,13 @@
  # packaging lambda function
  data "archive_file" "sns_to_slack" {
    type = "zip"
-   source_file = "${path.module}/../lambda-code/strixSlackSNS.js"
+   source_file = "${path.module}/../lambda-code/strixSlackSNS.mjs"
    output_path = "${path.module}/strix-slack-sns.zip"
  }
 
  resource "aws_lambda_function" "slack_publish_sns" {
    filename = data.archive_file.sns_to_slack.output_path
+   source_code_hash = data.archive_file.sns_to_slack.output_base64sha256
    function_name = "strix-slack-sns"
    role = aws_iam_role.strix_lambda.arn
    handler = "strixSlackSNS.handler"
@@ -22,12 +23,13 @@
 
  data "archive_file" "strix_git_api" {
    type = "zip"
-   source_file = "${path.module}/../lambda-code/strixGitHook.js"
+   source_file = "${path.module}/../lambda-code/strixGitHook.mjs"
    output_path = "${path.module}/strix-git-hook.zip"
  }
 
  resource "aws_lambda_function" "strix_git_hook" {
    filename = data.archive_file.strix_git_api.output_path
+   source_code_hash = data.archive_file.strix_git_api.output_base64sha256
    function_name = "strix-git-hook"
    role = aws_iam_role.strix_lambda.arn
    handler = "strixGitHook.handler"
@@ -45,3 +47,11 @@
     security_group_ids = [aws_security_group.lambda_sg.id]
   }
  }
+
+resource "aws_lambda_permission" "allow_sns_invoke" {
+  statement_id  = "AllowSNSInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.slack_publish_sns.function_name
+  principal     = "sns.amazonaws.com"
+  source_arn    = aws_sns_topic.strix_alerts.arn
+}
