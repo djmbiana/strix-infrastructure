@@ -5,7 +5,6 @@
 ![Serverless](https://img.shields.io/badge/architecture-serverless-blue)
 ![Terraform](https://img.shields.io/badge/IaC-Terraform-623CE4)
 ![Node.js](https://img.shields.io/badge/runtime-Node.js-green)
-![Security](https://img.shields.io/badge/focus-security-critical-red)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Real-time credential leak detection for Git repositories using serverless architecture. Strix scans Github commits for exposed secrets (AWS Keys, Github Tokens, SSH keys) and sends alerts to prevent credentials from being exposed. Strix is managed with terraform and can be deployed via `terraform apply`. 
