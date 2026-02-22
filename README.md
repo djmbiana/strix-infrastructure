@@ -1,38 +1,19 @@
 # Strix
 
-Security scanning platform that prevents credential leaks and limits cloud blast radius.
-
+![Status](https://img.shields.io/badge/status-WIP-orange)
+![AWS](https://img.shields.io/badge/cloud-AWS-orange)
+![Serverless](https://img.shields.io/badge/architecture-serverless-blue)
+![Terraform](https://img.shields.io/badge/IaC-Terraform-623CE4)
+![Node.js](https://img.shields.io/badge/runtime-Node.js-green)
+![Security](https://img.shields.io/badge/focus-security-critical-red)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-![Status](https://img.shields.io/badge/status-WIP-yellow)
 
+Real-time credential leak detection for Git repositories using serverless architecture. Strix scans Github commits for exposed secrets (AWS Keys, Github Tokens, SSH keys) and sends alerts to prevent credentials from being exposed. Strix is managed with terraform and can be deployed via `terraform apply`. 
 
-## Status
-In Development - Day 8 of 50
-**Latest:** Fully migrated to IaC via Terraform. Strix can now be reproduciable 
--  Secrets detection (AWS, GitHub Tokens, SSH keys)
--  GitHub webhook integration
--  Scans save to an S3 bucket & DynamoDB 
-- Sends SNS notifications to both Email & Slack
+**Built with: Lambda, API gateway, DynamoDB, S3, SNS, and Terraform**
 
 **Architecture:**
-GitHub → API Gateway → Lambda (private subnet) → S3 + CloudWatch
 
-**Next:** SNS alerts + DynamoDB + Terraform (Days 5-10)
-
-
-## What is Strix?
-Strix is an automated security platform that detects exposed secrets in code repositories and immediately contains potential cloud compromise.
-
-### The Problem
-Developer commits AWS credentials → Automated bots detect the leak within minutes → Unauthorized resource usage begins → Financial and security impact follows.
-### The Solution
-Strix integrates with repositories as a GitHub App and:
-
-- Scans commits and pull requests for secrets
-- Detects exposed AWS credentials, API keys, and tokens
-- Automatically revokes compromised keys via AWS Organizations
-- Isolates impact using multi-account AWS architecture
-- Provides audit-ready security reports
 
 ## Architecture
 **GitHub Integration:**
