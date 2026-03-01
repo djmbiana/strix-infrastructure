@@ -8,3 +8,6 @@
 # Sensitive variable files
 *.tfvars
 *.tfvars.json
+
+# Ignore the source
+.terraform_env
